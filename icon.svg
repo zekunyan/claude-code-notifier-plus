@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1040"/>
+      <stop offset="50%" stop-color="#150D30"/>
+      <stop offset="100%" stop-color="#0A0618"/>
+    </linearGradient>
+    <linearGradient id="bellFill" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="50%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#B24BF3"/>
+    </linearGradient>
+    <linearGradient id="bellHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="badgeFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF4D6A"/>
+      <stop offset="100%" stop-color="#FF2E5B"/>
+    </linearGradient>
+    <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#6C63FF"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B24BF3"/>
+      <stop offset="100%" stop-color="#6C63FF"/>
+    </linearGradient>
+    <filter id="bellGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.4  0 0 0 0 1  0 0 0 0.5 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="badgeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 1  0 0 0 0 0.2  0 0 0 0 0.35  0 0 0 0.6 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="waveGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 0 1  0 0 0 0.6 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="bgClip">
+      <rect x="8" y="8" width="240" height="240" rx="52" ry="52"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect x="8" y="8" width="240" height="240" rx="52" ry="52" fill="url(#bg)"/>
+
+  <!-- Subtle radial light behind bell -->
+  <circle cx="128" cy="130" r="70" fill="#6C63FF" opacity="0.08" clip-path="url(#bgClip)"/>
+  <circle cx="128" cy="130" r="50" fill="#00E5FF" opacity="0.05" clip-path="url(#bgClip)"/>
+
+  <!-- Signal waves - left side -->
+  <g filter="url(#waveGlow)" opacity="0.5">
+    <path d="M52 108 Q48 85, 62 62" stroke="url(#wave1)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M40 116 Q34 82, 55 50" stroke="url(#wave1)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+  </g>
+
+  <!-- Signal waves - right side -->
+  <g filter="url(#waveGlow)" opacity="0.5">
+    <path d="M204 108 Q208 85, 194 62" stroke="url(#wave2)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M216 116 Q222 82, 201 50" stroke="url(#wave2)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+  </g>
+
+  <!-- Bell icon with glow -->
+  <g filter="url(#bellGlow)">
+    <!-- Bell dome -->
+    <path d="M128 54 C128 54, 96 54, 88 90 C80 126, 80 132, 68 148 L188 148 C176 132, 176 126, 168 90 C160 54, 128 54, 128 54 Z" fill="url(#bellFill)"/>
+    <!-- Bell rim -->
+    <rect x="60" y="146" width="136" height="14" rx="7" fill="url(#bellFill)"/>
+    <!-- Bell clapper -->
+    <circle cx="128" cy="174" r="10" fill="url(#bellFill)"/>
+    <!-- Bell top knob -->
+    <circle cx="128" cy="54" r="7" fill="url(#bellFill)"/>
+  </g>
+
+  <!-- Bell surface highlight -->
+  <path d="M108 72 C112 64, 122 58, 128 58" stroke="url(#bellHighlight)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M100 90 C102 80, 108 72, 112 68" stroke="url(#bellHighlight)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Plus badge -->
+  <g filter="url(#badgeGlow)">
+    <circle cx="180" cy="66" r="24" fill="url(#badgeFill)"/>
+  </g>
+  <circle cx="180" cy="66" r="24" fill="url(#badgeFill)"/>
+  <line x1="170" y1="66" x2="190" y2="66" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="180" y1="56" x2="180" y2="76" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

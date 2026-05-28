@@ -1,0 +1,102 @@
+{
+  "name": "claude-code-notifier-plus",
+  "displayName": "Claude Code Notifier Plus",
+  "description": "Get notifications when Claude Code needs your attention — works in both CLI and VS Code extension mode",
+  "version": "1.0.0",
+  "publisher": "tutuge",
+  "author": {
+    "name": "tutuge"
+  },
+  "icon": "icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zekunyan/claude-code-notifier-plus"
+  },
+  "homepage": "https://github.com/zekunyan/claude-code-notifier-plus#readme",
+  "bugs": {
+    "url": "https://github.com/zekunyan/claude-code-notifier-plus/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "notification",
+    "notifier",
+    "ai"
+  ],
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#150D30",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claude-notifier-plus.notify",
+        "title": "Claude Code Notifier Plus: Send Test Notification"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Code Notifier Plus",
+      "properties": {
+        "claudeCodeNotifierPlus.notifyOnPermissionRequest": {
+          "type": "boolean",
+          "default": true,
+          "description": "Notify when Claude is asking for permission to run a command."
+        },
+        "claudeCodeNotifierPlus.notifyOnQuestion": {
+          "type": "boolean",
+          "default": true,
+          "description": "Notify when Claude needs to ask you a question before continuing."
+        },
+        "claudeCodeNotifierPlus.notifyOnTaskComplete": {
+          "type": "boolean",
+          "default": true,
+          "description": "Notify when Claude finishes a task and is waiting for your next instruction."
+        },
+        "claudeCodeNotifierPlus.notifyOnSubagentStop": {
+          "type": "boolean",
+          "default": false,
+          "description": "Notify when a Claude subagent finishes its task."
+        },
+        "claudeCodeNotifierPlus.systemNotification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show an OS-level notification pop-up in addition to the VS Code notification."
+        },
+        "claudeCodeNotifierPlus.sound": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play a sound when Claude needs your attention."
+        },
+        "claudeCodeNotifierPlus.notificationDelay": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 60,
+          "description": "Seconds to wait before playing sound and showing the OS notification. Dismissing the VS Code popup within this time cancels them."
+        },
+        "claudeCodeNotifierPlus.showVSCodePopup": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a VS Code warning popup when Claude needs attention. Turn off to only receive OS-level system notifications and sound."
+        },
+        "claudeCodeNotifierPlus.suppressWhenFocused": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip the system notification and sound when VS Code is the active window. The VS Code popup still appears. When false (default), notifications are always sent regardless of focus state."
+        }
+      }
+    }
+  }
+}
