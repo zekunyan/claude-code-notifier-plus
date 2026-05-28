@@ -1,5 +1,7 @@
 # Claude Code Notifier Plus
 
+![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i4/O1CN01RYeWTv1oPRQ0kE8wm_!!6000000005217-2-tps-2484-1282.png)
+
 Get notified when Claude Code needs your attention — works in **both CLI and VS Code extension mode**.
 
 ## Why This Extension?

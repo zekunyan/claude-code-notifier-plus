@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Notifier Plus - Promo Banner</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0A0618;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .banner {
+    width: 1280px;
+    height: 640px;
+    background: linear-gradient(135deg, #1E1040 0%, #0F0928 40%, #0A0618 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ambient glow effects */
+  .glow-1 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%);
+    top: -100px;
+    left: -100px;
+  }
+  .glow-2 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
+    bottom: -200px;
+    right: 100px;
+  }
+  .glow-3 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(178, 75, 243, 0.1) 0%, transparent 70%);
+    top: 50px;
+    right: 300px;
+  }
+
+  /* Grid pattern overlay */
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(108, 99, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108, 99, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Left content */
+  .content-left {
+    position: relative;
+    z-index: 2;
+    padding: 60px 70px;
+    flex: 1;
+    max-width: 640px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(108, 99, 255, 0.15);
+    border: 1px solid rgba(108, 99, 255, 0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    margin-bottom: 24px;
+  }
+  .badge span {
+    color: #A8A0FF;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #00E5FF;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+  }
+
+  .title {
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .title .t1 { color: #FFFFFF; }
+  .title .t2 {
+    background: linear-gradient(90deg, #00E5FF, #6C63FF, #B24BF3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    margin-bottom: 36px;
+    max-width: 500px;
+  }
+
+  /* Feature pills */
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 18px;
+  }
+  .feature-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+  }
+  .feature-text {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* Right side - screenshot */
+  .content-right {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 580px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 50px;
+  }
+
+  .screenshot-wrapper {
+    position: relative;
+  }
+
+  .screenshot-glow {
+    position: absolute;
+    inset: -50px;
+    background: radial-gradient(ellipse at center, rgba(108, 99, 255, 0.2) 0%, transparent 70%);
+    border-radius: 30px;
+  }
+
+  .screenshot-container {
+    position: relative;
+    background: rgba(30, 30, 50, 0.6);
+    border: 1px solid rgba(108, 99, 255, 0.2);
+    border-radius: 20px;
+    padding: 18px;
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 0 40px rgba(108, 99, 255, 0.1),
+      0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .screenshot-container img {
+    width: 460px;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .screenshot-label {
+    text-align: center;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Decorative elements */
+  .deco-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00E5FF, #6C63FF, #B24BF3, transparent);
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <!-- Background effects -->
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="glow-3"></div>
+  <div class="grid-pattern"></div>
+
+  <!-- Left content -->
+  <div class="content-left">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span>VS Code Extension</span>
+    </div>
+
+    <h1 class="title">
+      <span class="t1">Claude Code</span><br>
+      <span class="t2">Notifier Plus</span>
+    </h1>
+
+    <p class="subtitle">
+      Never miss a prompt from Claude Code.<br>
+      Works in both CLI and VS Code extension mode.
+    </p>
+
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">🔐</span>
+        <span class="feature-text">Permission Requests</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">❓</span>
+        <span class="feature-text">Questions</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span class="feature-text">Task Complete</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🤖</span>
+        <span class="feature-text">Subagent Finished</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🖥️</span>
+        <span class="feature-text">OS Notifications</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📂</span>
+        <span class="feature-text">Project Context</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side - screenshot -->
+  <div class="content-right">
+    <div class="screenshot-wrapper">
+      <div class="screenshot-glow"></div>
+      <div class="screenshot-container">
+        <img src="https://img.alicdn.com/imgextra/i3/O1CN013xdXHW1kitmWnEwCQ_!!6000000004718-2-tps-718-490.png" alt="Notification Screenshot">
+        <div class="screenshot-label">✨ macOS System Notifications</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom accent line -->
+  <div class="deco-line"></div>
+</div>
+
+</body>
+</html>
