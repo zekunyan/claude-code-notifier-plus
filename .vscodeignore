@@ -3,3 +3,6 @@
 node_modules/
 *.vsix
 CHANGELOG.md
+promo-banner.html
+scripts/
+icon.svg

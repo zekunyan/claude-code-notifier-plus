@@ -23,7 +23,9 @@
     position: relative;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   /* Ambient glow effects */
@@ -32,24 +34,24 @@
     width: 500px;
     height: 500px;
     background: radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%);
-    top: -100px;
-    left: -100px;
+    top: -150px;
+    left: -50px;
   }
   .glow-2 {
     position: absolute;
     width: 600px;
     height: 600px;
     background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
-    bottom: -200px;
-    right: 100px;
+    bottom: -250px;
+    right: 50px;
   }
   .glow-3 {
     position: absolute;
     width: 400px;
     height: 400px;
     background: radial-gradient(circle, rgba(178, 75, 243, 0.1) 0%, transparent 70%);
-    top: 50px;
-    right: 300px;
+    top: 100px;
+    right: 150px;
   }
 
   /* Grid pattern overlay */
@@ -62,13 +64,12 @@
     background-size: 40px 40px;
   }
 
-  /* Left content */
-  .content-left {
+  /* Top section: title + subtitle */
+  .top-section {
     position: relative;
     z-index: 2;
-    padding: 60px 70px;
-    flex: 1;
-    max-width: 640px;
+    text-align: center;
+    margin-bottom: 36px;
   }
 
   .badge {
@@ -79,7 +80,7 @@
     border: 1px solid rgba(108, 99, 255, 0.3);
     border-radius: 20px;
     padding: 6px 16px;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
   .badge span {
     color: #A8A0FF;
@@ -93,13 +94,18 @@
     background: #00E5FF;
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
   .title {
-    font-size: 46px;
+    font-size: 48px;
     font-weight: 700;
     line-height: 1.15;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     letter-spacing: -0.5px;
   }
   .title .t1 { color: #FFFFFF; }
@@ -112,85 +118,116 @@
 
   .subtitle {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
-    line-height: 1.6;
-    margin-bottom: 36px;
-    max-width: 500px;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
   }
 
-  /* Feature pills */
-  .features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .feature {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    padding: 10px 18px;
-  }
-  .feature-icon {
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
-  }
-  .feature-text {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  /* Right side - screenshot */
-  .content-right {
+  /* Middle section: screenshot + features side by side */
+  .middle-section {
     position: relative;
     z-index: 2;
-    flex: 0 0 580px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding-right: 50px;
+    gap: 50px;
   }
 
+  /* Screenshot */
   .screenshot-wrapper {
     position: relative;
   }
 
   .screenshot-glow {
     position: absolute;
-    inset: -50px;
-    background: radial-gradient(ellipse at center, rgba(108, 99, 255, 0.2) 0%, transparent 70%);
-    border-radius: 30px;
+    inset: -40px;
+    background: radial-gradient(ellipse at center, rgba(108, 99, 255, 0.18) 0%, transparent 70%);
+    border-radius: 24px;
   }
 
   .screenshot-container {
     position: relative;
     background: rgba(30, 30, 50, 0.6);
     border: 1px solid rgba(108, 99, 255, 0.2);
-    border-radius: 20px;
-    padding: 18px;
+    border-radius: 16px;
+    padding: 14px;
     backdrop-filter: blur(20px);
     box-shadow:
-      0 0 40px rgba(108, 99, 255, 0.1),
-      0 20px 60px rgba(0, 0, 0, 0.4);
+      0 0 30px rgba(108, 99, 255, 0.1),
+      0 16px 48px rgba(0, 0, 0, 0.4);
   }
 
   .screenshot-container img {
-    width: 460px;
-    border-radius: 12px;
+    width: 380px;
+    border-radius: 10px;
     display: block;
   }
 
-  .screenshot-label {
+  .click-indicator {
     text-align: center;
-    margin-top: 14px;
-    color: rgba(255, 255, 255, 0.35);
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .click-indicator span {
+    color: rgba(0, 229, 255, 0.7);
     font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* Features grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 12px 16px;
+    min-width: 190px;
+  }
+  .feature.highlight {
+    border-color: rgba(0, 229, 255, 0.2);
+    background: rgba(0, 229, 255, 0.04);
+  }
+  .feature-icon {
+    font-size: 20px;
+    width: 26px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .feature-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .feature.highlight .feature-text {
+    color: rgba(0, 229, 255, 0.85);
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  .platform-badge {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    letter-spacing: 0.5px;
   }
 
   /* Decorative elements */
@@ -214,60 +251,77 @@
   <div class="glow-3"></div>
   <div class="grid-pattern"></div>
 
-  <!-- Left content -->
-  <div class="content-left">
+  <!-- Top: Title -->
+  <div class="top-section">
     <div class="badge">
       <div class="badge-dot"></div>
-      <span>VS Code Extension</span>
+      <span>VS Code Extension · CLI · Zero Config</span>
     </div>
 
     <h1 class="title">
-      <span class="t1">Claude Code</span><br>
-      <span class="t2">Notifier Plus</span>
+      <span class="t1">Claude Code </span><span class="t2">Notifier Plus</span>
     </h1>
 
     <p class="subtitle">
-      Never miss a prompt from Claude Code.<br>
-      Works in both CLI and VS Code extension mode.
+      Never miss a prompt. Click notification → jump to the right window.
     </p>
-
-    <div class="features">
-      <div class="feature">
-        <span class="feature-icon">🔐</span>
-        <span class="feature-text">Permission Requests</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">❓</span>
-        <span class="feature-text">Questions</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">✅</span>
-        <span class="feature-text">Task Complete</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">🤖</span>
-        <span class="feature-text">Subagent Finished</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">🖥️</span>
-        <span class="feature-text">OS Notifications</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">📂</span>
-        <span class="feature-text">Project Context</span>
-      </div>
-    </div>
   </div>
 
-  <!-- Right side - screenshot -->
-  <div class="content-right">
+  <!-- Middle: Screenshot + Features -->
+  <div class="middle-section">
+    <!-- Screenshot -->
     <div class="screenshot-wrapper">
       <div class="screenshot-glow"></div>
       <div class="screenshot-container">
         <img src="https://img.alicdn.com/imgextra/i3/O1CN013xdXHW1kitmWnEwCQ_!!6000000004718-2-tps-718-490.png" alt="Notification Screenshot">
-        <div class="screenshot-label">✨ macOS System Notifications</div>
+        <div class="click-indicator">
+          <span>👆 Click notification to focus project window</span>
+        </div>
       </div>
     </div>
+
+    <!-- Features -->
+    <div class="features-grid">
+      <div class="feature highlight">
+        <span class="feature-icon">🖱️</span>
+        <span class="feature-text">Click to Focus<br>Window</span>
+      </div>
+      <div class="feature highlight">
+        <span class="feature-icon">💻</span>
+        <span class="feature-text">CLI + VS Code<br>Dual Mode</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🔐</span>
+        <span class="feature-text">Permission<br>Requests</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">❓</span>
+        <span class="feature-text">Questions &<br>Elicitations</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✅</span>
+        <span class="feature-text">Task<br>Complete</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🤖</span>
+        <span class="feature-text">Subagent<br>Finished</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📂</span>
+        <span class="feature-text">Project &<br>Task Context</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🌐</span>
+        <span class="feature-text">English &<br>中文</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom platforms -->
+  <div class="bottom-bar">
+    <span class="platform-badge">🍎 macOS</span>
+    <span class="platform-badge">🪟 Windows</span>
+    <span class="platform-badge">🐧 Linux</span>
   </div>
 
   <!-- Bottom accent line -->

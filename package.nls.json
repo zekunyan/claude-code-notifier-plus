@@ -1,0 +1,17 @@
+{
+  "command.sendTestNotification": "Claude Code Notifier Plus: Send Test Notification",
+  "config.title": "Claude Code Notifier Plus",
+  "config.notifyOnPermissionRequest": "Notify when Claude is asking for permission to run a command.",
+  "config.notifyOnQuestion": "Notify when Claude needs to ask you a question before continuing.",
+  "config.notifyOnTaskComplete": "Notify when Claude finishes a task and is waiting for your next instruction.",
+  "config.notifyOnSubagentStop": "Notify when a Claude subagent finishes its task.",
+  "config.systemNotification": "Show an OS-level notification pop-up in addition to the VS Code notification.",
+  "config.sound": "Play a sound when Claude needs your attention.",
+  "config.notificationDelay": "Seconds to wait before playing sound and showing the OS notification. Dismissing the VS Code popup within this time cancels them.",
+  "config.showVSCodePopup": "Show a VS Code warning popup when Claude needs attention. Turn off to only receive OS-level system notifications and sound.",
+  "config.clickToFocus.description": "🖱️ Click-to-focus behavior. Requires 'terminal-notifier' on macOS → run: brew install terminal-notifier",
+  "config.clickToFocus.window": "⭐ Recommended — Click notification to jump to the exact project window. Requires Accessibility permission on first use.",
+  "config.clickToFocus.app": "👍 No extra permissions — Click notification to activate VS Code (brings to front, but won't target a specific window).",
+  "config.clickToFocus.off": "🚫 Disabled — Click notification does nothing. Falls back to basic osascript notification.",
+  "config.suppressWhenFocused": "Skip the system notification and sound when VS Code is the active window. The VS Code popup still appears. When false (default), notifications are always sent regardless of focus state."
+}

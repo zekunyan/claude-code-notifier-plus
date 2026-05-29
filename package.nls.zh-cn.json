@@ -1,0 +1,17 @@
+{
+  "command.sendTestNotification": "Claude Code Notifier Plus: 发送测试通知",
+  "config.title": "Claude Code Notifier Plus",
+  "config.notifyOnPermissionRequest": "当 Claude 请求执行命令的权限时发送通知。",
+  "config.notifyOnQuestion": "当 Claude 需要向你提问才能继续时发送通知。",
+  "config.notifyOnTaskComplete": "当 Claude 完成任务并等待你的下一步指令时发送通知。",
+  "config.notifyOnSubagentStop": "当 Claude 子代理完成任务时发送通知。",
+  "config.systemNotification": "在 VS Code 通知之外，额外显示系统级弹窗通知。",
+  "config.sound": "当 Claude 需要你的注意时播放提示音。",
+  "config.notificationDelay": "系统通知和提示音的延迟秒数。在此时间内关闭 VS Code 弹窗可取消系统通知。",
+  "config.showVSCodePopup": "当 Claude 需要注意时显示 VS Code 弹窗。关闭后仅通过系统通知和提示音提醒。",
+  "config.clickToFocus.description": "🖱️ 点击通知的跳转行为。macOS 需安装 terminal-notifier → 运行: brew install terminal-notifier",
+  "config.clickToFocus.window": "⭐ 推荐 — 点击通知精确跳转到对应项目窗口。首次使用需授予辅助功能权限。",
+  "config.clickToFocus.app": "👍 无需额外权限 — 点击通知激活 VS Code（切到前台，但不定位具体窗口）。",
+  "config.clickToFocus.off": "🚫 禁用 — 点击通知无操作。回退为基础 osascript 通知。",
+  "config.suppressWhenFocused": "当 VS Code 为活动窗口时，跳过系统通知和提示音。VS Code 弹窗仍会显示。关闭时（默认），无论焦点状态始终发送通知。"
+}

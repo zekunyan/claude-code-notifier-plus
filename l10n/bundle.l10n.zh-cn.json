@@ -1,0 +1,13 @@
+{
+  "Hook installation failed — {0}.": "Hook 安装失败 — {0}。",
+  "Could not write test notification: {0}": "无法写入测试通知: {0}",
+  "🔔 Install terminal-notifier to enable click-to-focus! Click a notification to jump directly to the project window.": "🔔 安装 terminal-notifier 即可启用点击跳转！点击通知直接跳到对应项目窗口。",
+  "Install (brew)": "安装 (brew)",
+  "Later": "稍后",
+  "Don't show again": "不再提示",
+  "✅ After installation completes, reload VS Code (Cmd+Shift+P → \"Reload Window\") to activate click-to-focus.": "✅ 安装完成后，请重新加载 VS Code（Cmd+Shift+P → \"Reload Window\"）以激活点击跳转。",
+  "⚡ Click-to-focus requires Accessibility permission! Go to: System Settings → Privacy & Security → Accessibility → Enable \"terminal-notifier\". This allows clicking a notification to jump to the exact project window.": "⚡ 点击跳转需要辅助功能权限！请前往: 系统设置 → 隐私与安全性 → 辅助功能 → 开启 \"terminal-notifier\"。授权后点击通知即可精确跳转到对应窗口。",
+  "Open Settings": "打开设置",
+  "Got it": "知道了",
+  "Dismiss": "关闭"
+}
