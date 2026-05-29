@@ -87,9 +87,7 @@ function promptTerminalNotifierInstall(context) {
         const terminal = vscode.window.createTerminal('Claude Code Notifier Plus');
         terminal.show();
         terminal.sendText('brew install terminal-notifier');
-        vscode.window.showInformationMessage(
-          vscode.l10n.t('✅ After installation completes, reload VS Code (Cmd+Shift+P → "Reload Window") to activate click-to-focus.')
-        );
+        waitForTerminalNotifier(context);
       } else if (selection === btnLater) {
         context.globalState.update('terminalNotifierLaterUntil', Date.now() + 3 * 24 * 60 * 60 * 1000);
       } else if (selection === btnDismiss) {
@@ -102,21 +100,63 @@ function promptTerminalNotifierInstall(context) {
   if (cfg.get('clickToFocus', 'window') !== 'window') return;
   if (context.globalState.get('dismissAccessibilityPrompt')) return;
 
-  const btnOpen = vscode.l10n.t('Open Settings');
-  const btnGotIt = vscode.l10n.t('Got it');
-  const btnDismissA11y = vscode.l10n.t("Don't show again");
-  vscode.window.showWarningMessage(
-    vscode.l10n.t('⚡ Click-to-focus requires Accessibility permission! Go to: System Settings → Privacy & Security → Accessibility → Enable "terminal-notifier". This allows clicking a notification to jump to the exact project window.'),
-    btnOpen,
-    btnGotIt,
-    btnDismissA11y
-  ).then((selection) => {
-    if (selection === btnOpen) {
-      execFile('open', ['x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility'], () => {});
-      context.globalState.update('dismissAccessibilityPrompt', true);
-    } else if (selection === btnGotIt || selection === btnDismissA11y) {
-      context.globalState.update('dismissAccessibilityPrompt', true);
+  promptAccessibilityPermission(context);
+}
+
+function isTerminalNotifierInstalled() {
+  return ['/opt/homebrew/bin/terminal-notifier', '/usr/local/bin/terminal-notifier']
+    .some((p) => fs.existsSync(p));
+}
+
+function waitForTerminalNotifier(context) {
+  let attempts = 0;
+  const maxAttempts = 60;
+  const timer = setInterval(() => {
+    attempts++;
+    if (isTerminalNotifierInstalled()) {
+      clearInterval(timer);
+      const btnReload = vscode.l10n.t('Reload Window');
+      vscode.window.showInformationMessage(
+        vscode.l10n.t('✅ terminal-notifier installed! Click to reload VS Code and activate click-to-focus.'),
+        btnReload
+      ).then((sel) => {
+        if (sel === btnReload) {
+          vscode.commands.executeCommand('workbench.action.reloadWindow');
+        }
+      });
+    } else if (attempts >= maxAttempts) {
+      clearInterval(timer);
     }
+  }, 3000);
+}
+
+function promptAccessibilityPermission(context) {
+  const tnPath = findTerminalNotifier();
+  if (!tnPath) return;
+
+  execFile(tnPath, [
+    '-title', '✨ Claude Code Notifier Plus',
+    '-message', vscode.l10n.t('Setup complete! Please enable Accessibility permission for click-to-focus.'),
+    '-contentImage', extensionIconPath,
+  ], () => {
+    setTimeout(() => {
+      const btnOpen = vscode.l10n.t('Open Settings');
+      const btnGotIt = vscode.l10n.t('Got it');
+      const btnDismissA11y = vscode.l10n.t("Don't show again");
+      vscode.window.showWarningMessage(
+        vscode.l10n.t('⚡ Click-to-focus requires Accessibility permission! Go to: System Settings → Privacy & Security → Accessibility → Enable "terminal-notifier". This allows clicking a notification to jump to the exact project window.'),
+        btnOpen,
+        btnGotIt,
+        btnDismissA11y
+      ).then((selection) => {
+        if (selection === btnOpen) {
+          execFile('open', ['x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility'], () => {});
+          context.globalState.update('dismissAccessibilityPrompt', true);
+        } else if (selection === btnGotIt || selection === btnDismissA11y) {
+          context.globalState.update('dismissAccessibilityPrompt', true);
+        }
+      });
+    }, 1000);
   });
 }
 

@@ -4,5 +4,7 @@ node_modules/
 *.vsix
 CHANGELOG.md
 promo-banner.html
+how-it-works.html
+docs/
 scripts/
 icon.svg
