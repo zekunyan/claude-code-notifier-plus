@@ -98,37 +98,7 @@ All settings are under `claudeCodeNotifierPlus.*` in VS Code settings:
 
 ## How It Works
 
-```
-Claude Code Process
-  │
-  ├─ CLI mode: fires Notification hook ──┐
-  │                                       │
-  ├─ VS Code mode: fires                 │
-  │   PermissionRequest hook ─────────────┤
-  │   Elicitation hook ───────────────────┤
-  │   Stop hook ──────────────────────────┤
-  │   SubagentStop hook ──────────────────┤
-  │                                       ▼
-  │                              notify-plus.js
-  │                                       │
-  │                          ┌────────────┴────────────┐
-  │                          ▼                         ▼
-  │                  VS Code running?            No VS Code?
-  │                  (marker file exists)        (CLI-only mode)
-  │                          │                         │
-  │                          ▼                         ▼
-  │                  Write temp file             Direct notification
-  │                          │                   (terminal-notifier
-  │                          ▼                    or osascript)
-  │                  VS Code Extension
-  │                  (watches temp file)
-  │                          │
-  │             ┌────────────┼────────────┐
-  │             ▼            ▼            ▼
-  │       VS Code       OS System      Sound
-  │       Popup        Notification    Alert
-  │                    + Click-to-focus
-```
+![How It Works](https://img.alicdn.com/imgextra/i2/O1CN01SWHcHM1GWafIEO1Ie_!!6000000000630-2-tps-1760-1350.png)
 
 ## Test
 

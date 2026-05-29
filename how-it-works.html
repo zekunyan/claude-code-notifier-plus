@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Notifier Plus - How It Works</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0A0618;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    padding: 40px 0;
+  }
+
+  .diagram {
+    width: 1100px;
+    background: linear-gradient(160deg, #1a1040 0%, #0e0825 50%, #0A0618 100%);
+    border-radius: 24px;
+    border: 1px solid rgba(108, 99, 255, 0.15);
+    padding: 50px 60px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Background effects */
+  .diagram::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, transparent 70%);
+    top: -150px;
+    right: -100px;
+  }
+  .diagram::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
+    bottom: -100px;
+    left: -50px;
+  }
+
+  .diagram-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .diagram-title span {
+    background: linear-gradient(90deg, #00E5FF, #6C63FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .flow {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Rows */
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  /* Nodes */
+  .node {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .node-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .node-source {
+    background: linear-gradient(135deg, rgba(178, 75, 243, 0.15), rgba(108, 99, 255, 0.15));
+    border: 1px solid rgba(178, 75, 243, 0.3);
+    color: #d4b0ff;
+  }
+
+  .node-hook {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 16px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .node-core {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(108, 99, 255, 0.12));
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: #7de8ff;
+    font-weight: 600;
+  }
+
+  .node-decision {
+    background: rgba(255, 200, 50, 0.08);
+    border: 1px solid rgba(255, 200, 50, 0.25);
+    color: rgba(255, 210, 80, 0.9);
+    font-size: 13px;
+  }
+
+  .node-output {
+    background: rgba(80, 220, 120, 0.08);
+    border: 1px solid rgba(80, 220, 120, 0.25);
+    color: rgba(120, 240, 150, 0.9);
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+    padding: 14px 20px;
+  }
+  .node-output .node-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .node-output .node-sub {
+    font-size: 11px;
+    opacity: 0.6;
+  }
+
+  .node-cli {
+    background: rgba(255, 140, 50, 0.08);
+    border: 1px solid rgba(255, 140, 50, 0.25);
+    color: rgba(255, 170, 80, 0.9);
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+    padding: 14px 20px;
+  }
+  .node-cli .node-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .node-cli .node-sub {
+    font-size: 11px;
+    opacity: 0.6;
+  }
+
+  /* Connectors */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 6px 0;
+    position: relative;
+  }
+
+  .arrow-down {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(108, 99, 255, 0.5), rgba(108, 99, 255, 0.2));
+    position: relative;
+  }
+  .arrow-down::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid rgba(108, 99, 255, 0.5);
+  }
+
+  /* Event grid */
+  .events-grid {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Branch section */
+  .branch {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 0;
+  }
+  .branch-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .branch-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Fork line */
+  .fork-container {
+    display: flex;
+    justify-content: center;
+    margin: 6px 0;
+    position: relative;
+    height: 40px;
+  }
+  .fork-line {
+    position: absolute;
+    top: 0;
+    width: 320px;
+    height: 100%;
+  }
+  .fork-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 12px;
+    background: rgba(108, 99, 255, 0.4);
+  }
+  .fork-line::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: calc(50% - 160px);
+    width: 320px;
+    height: 2px;
+    background: rgba(108, 99, 255, 0.3);
+  }
+  .fork-left, .fork-right {
+    position: absolute;
+    top: 12px;
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(108, 99, 255, 0.3), rgba(108, 99, 255, 0.15));
+  }
+  .fork-left {
+    left: calc(50% - 160px);
+  }
+  .fork-right {
+    right: calc(50% - 160px);
+  }
+  .fork-left::after, .fork-right::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid rgba(108, 99, 255, 0.3);
+  }
+
+  /* Output row */
+  .outputs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* Merge line for 3 outputs */
+  .merge-container {
+    display: flex;
+    justify-content: center;
+    margin: 6px 0;
+    position: relative;
+    height: 36px;
+  }
+  .merge-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 10px;
+    background: rgba(80, 220, 120, 0.3);
+  }
+  .merge-line::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: calc(50% - 140px);
+    width: 280px;
+    height: 2px;
+    background: rgba(80, 220, 120, 0.2);
+  }
+  .merge-line {
+    position: absolute;
+    width: 280px;
+  }
+  .merge-tick {
+    position: absolute;
+    top: 10px;
+    width: 2px;
+    height: 22px;
+    background: linear-gradient(180deg, rgba(80, 220, 120, 0.2), rgba(80, 220, 120, 0.1));
+  }
+  .merge-tick::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid rgba(80, 220, 120, 0.2);
+  }
+  .merge-tick:nth-child(1) { left: calc(50% - 140px); }
+  .merge-tick:nth-child(2) { left: 50%; }
+  .merge-tick:nth-child(3) { right: calc(50% - 140px); }
+</style>
+</head>
+<body>
+
+<div class="diagram">
+  <div class="diagram-title">⚡ <span>How It Works</span></div>
+
+  <div class="flow">
+    <!-- Row 1: Source -->
+    <div class="row">
+      <div class="node node-source">
+        <span class="node-icon">🤖</span>
+        Claude Code Process
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Row 2: Events -->
+    <div class="events-grid">
+      <div class="node node-hook">
+        <span class="node-icon">💻</span>
+        CLI: Notification
+      </div>
+      <div class="node node-hook">
+        <span class="node-icon">🔐</span>
+        PermissionRequest
+      </div>
+      <div class="node node-hook">
+        <span class="node-icon">❓</span>
+        Elicitation
+      </div>
+      <div class="node node-hook">
+        <span class="node-icon">✅</span>
+        Stop
+      </div>
+      <div class="node node-hook">
+        <span class="node-icon">🤖</span>
+        SubagentStop
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Row 3: Core -->
+    <div class="row">
+      <div class="node node-core">
+        <span class="node-icon">⚙️</span>
+        notify-plus.js
+      </div>
+    </div>
+
+    <!-- Fork -->
+    <div class="fork-container">
+      <div class="fork-line">
+        <div class="fork-left"></div>
+        <div class="fork-right"></div>
+      </div>
+    </div>
+
+    <!-- Row 4: Decision branch -->
+    <div class="branch">
+      <div class="branch-side">
+        <div class="branch-label">VS Code Running</div>
+        <div class="node node-decision">
+          <span class="node-icon">📡</span>
+          Temp file → Extension watches
+        </div>
+
+        <div class="connector"><div class="arrow-down"></div></div>
+
+        <!-- 3-way output -->
+        <div class="merge-container">
+          <div class="merge-line">
+            <div class="merge-tick"></div>
+            <div class="merge-tick"></div>
+            <div class="merge-tick"></div>
+          </div>
+        </div>
+
+        <div class="outputs">
+          <div class="node node-output">
+            <span class="node-icon">🪟</span>
+            <span class="node-label">VS Code Popup</span>
+          </div>
+          <div class="node node-output">
+            <span class="node-icon">🔔</span>
+            <span class="node-label">OS Notification</span>
+            <span class="node-sub">+ Click to Focus</span>
+          </div>
+          <div class="node node-output">
+            <span class="node-icon">🔊</span>
+            <span class="node-label">Sound Alert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-side">
+        <div class="branch-label">CLI Only</div>
+        <div class="node node-decision">
+          <span class="node-icon">🖥️</span>
+          No marker → Direct notify
+        </div>
+
+        <div class="connector"><div class="arrow-down"></div></div>
+
+        <div class="node node-cli">
+          <span class="node-icon">🔔</span>
+          <span class="node-label">OS Notification</span>
+          <span class="node-sub">terminal-notifier / osascript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
