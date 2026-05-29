@@ -2,7 +2,7 @@
   "name": "claude-code-notifier-plus",
   "displayName": "Claude Code Notifier Plus",
   "description": "Get notifications when Claude Code needs your attention — works in both CLI and VS Code extension mode",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "tutuge",
   "author": {
     "name": "tutuge"
