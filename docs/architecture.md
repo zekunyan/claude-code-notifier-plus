@@ -34,11 +34,34 @@ Claude Code Process
   │                    + Click-to-focus
 ```
 
+## Add Selection to Claude Code
+
+```
+User selects code in editor
+        │
+        ├─ Right-click → "Add Selection to Claude Code"
+        │   or Cmd+Shift+I
+        │
+        ▼
+claude-notifier-plus.addSelectionToClaude command
+        │
+        ▼
+Delegates to claude-vscode.insertAtMention
+        │
+        ▼
+Claude Code webview receives insert_at_mention event
+        │
+        ▼
+@file#line-range reference inserted in chat input
+```
+
+This feature piggybacks on Claude Code's built-in `insertAtMention` command, which sends a file reference (e.g., `@extension.js#10-15`) to the chat input via webview messaging. Our extension simply exposes this as a context menu item and keyboard shortcut.
+
 ## Key Files
 
 | File | Role |
 |---|---|
-| `extension.js` | VS Code extension entry, file watcher, setup guides |
+| `extension.js` | VS Code extension entry, file watcher, setup guides, add-selection command |
 | `hooks/notify.js` | Claude Code hook script, runs on every event |
 | `lib/system-notification.js` | OS notification + terminal-notifier + click-to-focus |
 | `lib/hook-installer.js` | Auto-register hooks in `~/.claude/settings.json` |

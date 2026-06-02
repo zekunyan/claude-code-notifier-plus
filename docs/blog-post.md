@@ -63,6 +63,16 @@ brew install terminal-notifier
 
 重新加载 VS Code，开箱即用 🎉
 
+## 🍰 甜点功能：一键发送选中代码给 Claude
+
+除了通知，我们还"赠送"了一个小甜点 🎁：
+
+选中代码 → 右键 **"将选中内容添加到 Claude Code"**，或按 `Cmd+Shift+I`，选中的代码引用就直接出现在 Claude Code 的聊天输入框里了。
+
+不用手动复制粘贴，不用手动输入文件路径。Claude 会自动拿到完整的文件上下文 📎。
+
+写代码遇到问题？选中那几行，一键问 Claude，丝滑 🧈。
+
 ---
 
 🔗 **GitHub**: https://github.com/zekunyan/claude-code-notifier-plus
