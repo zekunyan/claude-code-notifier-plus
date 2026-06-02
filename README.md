@@ -96,6 +96,15 @@ All settings are under `claudeCodeNotifierPlus.*` in VS Code settings:
 | `"app"` | Click notification → activate VS Code (no specific window) | `terminal-notifier` |
 | `"off"` | Click does nothing, uses basic `osascript` notification | Nothing |
 
+## Bonus: Add Selection to Claude Code
+
+Quickly send selected code to Claude Code's chat input — no copy-paste needed.
+
+- **Right-click** any selected code → **"Add Selection to Claude Code"**
+- **Keyboard shortcut**: `Cmd+Shift+I` (macOS) / `Ctrl+Shift+I` (Windows/Linux)
+
+The selected code is inserted as a `@file#line` reference in Claude Code's chat, so Claude knows exactly where the code is and can read the full context.
+
 ## How It Works
 
 ![How It Works](https://img.alicdn.com/imgextra/i2/O1CN01SWHcHM1GWafIEO1Ie_!!6000000000630-2-tps-1760-1350.png)
@@ -127,6 +136,10 @@ MIT
 - **焦点感知** — VS Code 为活动窗口时可跳过通知
 - **多语言** — 支持中文和英文，跟随系统语言自动切换
 - **零配置** — 安装即用，hook 自动注册
+
+### 甜点功能：快速发送选中代码到 Claude Code
+
+选中代码后，右键菜单选择 **"将选中内容添加到 Claude Code"**，或使用快捷键 `Cmd+Shift+I`，即可将代码引用直接插入 Claude Code 的聊天输入框。
 
 ### 安装
 
