@@ -327,6 +327,88 @@
   .merge-tick:nth-child(1) { left: calc(50% - 140px); }
   .merge-tick:nth-child(2) { left: 50%; }
   .merge-tick:nth-child(3) { right: calc(50% - 140px); }
+
+  /* Bonus section */
+  .bonus-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(108, 99, 255, 0.15);
+    position: relative;
+    z-index: 1;
+  }
+
+  .bonus-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+  .bonus-title span {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bonus-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .bonus-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .bonus-node-editor {
+    background: rgba(178, 75, 243, 0.12);
+    border: 1px solid rgba(178, 75, 243, 0.3);
+    color: #d4b0ff;
+  }
+
+  .bonus-node-action {
+    background: rgba(255, 200, 50, 0.08);
+    border: 1px solid rgba(255, 200, 50, 0.25);
+    color: rgba(255, 210, 80, 0.9);
+  }
+
+  .bonus-node-result {
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: #7de8ff;
+  }
+
+  .bonus-arrow {
+    color: rgba(108, 99, 255, 0.5);
+    font-size: 18px;
+  }
+
+  .bonus-shortcut {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.3px;
+  }
+  .bonus-shortcut kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: inherit;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+  }
 </style>
 </head>
 <body>
@@ -439,6 +521,30 @@
           <span class="node-sub">terminal-notifier / osascript</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Bonus: Add Selection to Claude Code -->
+  <div class="bonus-section">
+    <div class="bonus-title">🍰 Bonus: <span>Add Selection to Claude Code</span></div>
+    <div class="bonus-flow">
+      <div class="bonus-node bonus-node-editor">
+        <span class="node-icon">📝</span>
+        Select code in editor
+      </div>
+      <span class="bonus-arrow">→</span>
+      <div class="bonus-node bonus-node-action">
+        <span class="node-icon">🖱️</span>
+        Right-click or ⌘⇧I
+      </div>
+      <span class="bonus-arrow">→</span>
+      <div class="bonus-node bonus-node-result">
+        <span class="node-icon">💬</span>
+        @file#lines in Claude Code chat
+      </div>
+    </div>
+    <div class="bonus-shortcut">
+      <kbd>Cmd+Shift+I</kbd> (macOS) &nbsp;/&nbsp; <kbd>Ctrl+Shift+I</kbd> (Windows/Linux)
     </div>
   </div>
 </div>
