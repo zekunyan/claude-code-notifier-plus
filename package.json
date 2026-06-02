@@ -2,7 +2,7 @@
   "name": "claude-code-notifier-plus",
   "displayName": "Claude Code Notifier Plus",
   "description": "Get notifications when Claude Code needs your attention — works in both CLI and VS Code extension mode",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "publisher": "tutuge",
   "author": {
     "name": "tutuge"
@@ -45,6 +45,27 @@
       {
         "command": "claude-notifier-plus.notify",
         "title": "%command.sendTestNotification%"
+      },
+      {
+        "command": "claude-notifier-plus.addSelectionToClaude",
+        "title": "%command.addSelectionToClaude%"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "claude-notifier-plus.addSelectionToClaude",
+          "when": "editorHasSelection",
+          "group": "claude@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "claude-notifier-plus.addSelectionToClaude",
+        "key": "ctrl+shift+i",
+        "mac": "cmd+shift+i",
+        "when": "editorTextFocus && editorHasSelection"
       }
     ],
     "configuration": {

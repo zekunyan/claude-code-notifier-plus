@@ -1,5 +1,6 @@
 {
   "command.sendTestNotification": "Claude Code Notifier Plus: 发送测试通知",
+  "command.addSelectionToClaude": "将选中内容添加到 Claude Code",
   "config.title": "Claude Code Notifier Plus",
   "config.notifyOnPermissionRequest": "当 Claude 请求执行命令的权限时发送通知。",
   "config.notifyOnQuestion": "当 Claude 需要向你提问才能继续时发送通知。",

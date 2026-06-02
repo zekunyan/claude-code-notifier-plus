@@ -54,6 +54,21 @@ function activate(context) {
 
   context.subscriptions.push(testCommand);
 
+  const addSelectionCmd = vscode.commands.registerCommand(
+    'claude-notifier-plus.addSelectionToClaude',
+    async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor || editor.selection.isEmpty) return;
+      try {
+        await vscode.commands.executeCommand('claude-vscode.insertAtMention');
+      } catch {
+        await vscode.commands.executeCommand('claude-vscode.editor.openLast');
+        await vscode.commands.executeCommand('claude-vscode.insertAtMention');
+      }
+    }
+  );
+  context.subscriptions.push(addSelectionCmd);
+
   startFileWatcher();
 
   context.subscriptions.push({

@@ -1,5 +1,6 @@
 {
   "command.sendTestNotification": "Claude Code Notifier Plus: Send Test Notification",
+  "command.addSelectionToClaude": "Add Selection to Claude Code",
   "config.title": "Claude Code Notifier Plus",
   "config.notifyOnPermissionRequest": "Notify when Claude is asking for permission to run a command.",
   "config.notifyOnQuestion": "Notify when Claude needs to ask you a question before continuing.",
