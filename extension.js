@@ -56,7 +56,34 @@ function activate(context) {
 
   const addSelectionCmd = vscode.commands.registerCommand(
     'claude-notifier-plus.addSelectionToClaude',
-    async () => {
+    async (uri) => {
+      const fromExplorer = uri instanceof vscode.Uri;
+      if (fromExplorer) {
+        try {
+          const stat = await vscode.workspace.fs.stat(uri);
+          if (stat.type === vscode.FileType.Directory) return;
+        } catch { return; }
+        const uriStr = uri.toString();
+        const alreadyOpen = vscode.window.tabGroups.all.flatMap(g => g.tabs).some(t =>
+          t.input instanceof vscode.TabInputText && t.input.uri.toString() === uriStr
+        );
+        await vscode.window.showTextDocument(uri, { preview: true });
+        try {
+          await vscode.commands.executeCommand('claude-vscode.insertAtMention');
+        } catch {
+          await vscode.commands.executeCommand('claude-vscode.editor.openLast');
+          await vscode.commands.executeCommand('claude-vscode.insertAtMention');
+        }
+        if (!alreadyOpen) {
+          setTimeout(() => {
+            const tab = vscode.window.tabGroups.all.flatMap(g => g.tabs).find(t =>
+              t.input instanceof vscode.TabInputText && t.input.uri.toString() === uriStr
+            );
+            if (tab) vscode.window.tabGroups.close(tab);
+          }, 300);
+        }
+        return;
+      }
       const editor = vscode.window.activeTextEditor;
       if (!editor || editor.selection.isEmpty) return;
       try {

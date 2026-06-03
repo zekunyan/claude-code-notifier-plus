@@ -58,6 +58,13 @@
           "when": "editorHasSelection",
           "group": "claude@1"
         }
+      ],
+      "explorer/context": [
+        {
+          "command": "claude-notifier-plus.addSelectionToClaude",
+          "when": "!explorerResourceIsFolder",
+          "group": "claude@1"
+        }
       ]
     },
     "keybindings": [
