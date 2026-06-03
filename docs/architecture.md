@@ -21,17 +21,21 @@ Claude Code Process
   │                  (marker file exists)        (CLI-only mode)
   │                          │                         │
   │                          ▼                         ▼
-  │                  Write temp file             Direct notification
-  │                          │                   (terminal-notifier
-  │                          ▼                    or osascript)
-  │                  VS Code Extension
-  │                  (watches temp file)
+  │                  Write pipe file             Direct notification
+  │                  + detect terminal           + detect terminal
+  │                  (process tree walk)         (terminal-notifier
+  │                          │                    or osascript)
+  │                          ▼                         │
+  │                  VS Code Extension                 ▼
+  │                  (watches pipe file)         Click → focus terminal
   │                          │
   │             ┌────────────┼────────────┐
   │             ▼            ▼            ▼
   │       VS Code       OS System      Sound
   │       Popup        Notification    Alert
   │                    + Click-to-focus
+  │                    (VS Code window
+  │                     or CLI terminal)
 ```
 
 ## Add Selection to Claude Code
@@ -69,6 +73,19 @@ This feature piggybacks on Claude Code's built-in `insertAtMention` command, whi
 
 ## IPC Mechanism
 
-- **Temp file**: `$TMPDIR/claude-notify-plus` — hook writes JSON, extension watches
-- **Marker file**: `$TMPDIR/claude-notify-plus.active` — contains VS Code PID, hook checks to decide direct vs delegated notification
-- **Lock file**: `$TMPDIR/claude-notify-plus.lock` — prevents race conditions across multiple VS Code windows
+- **Pipe file**: `~/.claude/notify-plus.pipe` — hook writes JSON payload (including `termBundleId`), extension watches
+- **Marker file**: `~/.claude/notify-plus.active` — contains VS Code PID, hook checks to decide direct vs delegated notification
+- **Lock file**: `~/.claude/notify-plus.pipe.lock` — prevents race conditions across multiple VS Code windows
+
+> Files use `~/.claude/` (fixed path) instead of `$TMPDIR` to ensure the hook and extension always reference the same location regardless of how `$TMPDIR` is set.
+
+## Terminal Detection (macOS)
+
+When Claude Code runs in a CLI terminal, the hook detects which terminal app it's running in:
+
+1. Check `$TERM_PROGRAM` / `$LC_TERMINAL` environment variables
+2. Fallback: walk the process tree via `ps` to find the terminal ancestor
+
+Supported terminals: Terminal.app, iTerm2, Warp, Alacritty, Kitty, Hyper, VS Code integrated terminal.
+
+The detected terminal bundle ID (`termBundleId`) is included in the payload so the extension can focus the correct app when the user clicks the notification.

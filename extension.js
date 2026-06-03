@@ -7,8 +7,9 @@ const { parsePayload, isAllowedEvent } = require('./lib/payload');
 const { install: installHooks } = require('./lib/hook-installer');
 const { sendSystemNotification, findTerminalNotifier } = require('./lib/system-notification');
 
-const NOTIFY_FILE = path.join(os.tmpdir(), 'claude-notify-plus');
-const MARKER_FILE = path.join(os.tmpdir(), 'claude-notify-plus.active');
+const CLAUDE_DIR = path.join(os.homedir(), '.claude');
+const NOTIFY_FILE = path.join(CLAUDE_DIR, 'notify-plus.pipe');
+const MARKER_FILE = path.join(CLAUDE_DIR, 'notify-plus.active');
 const NOTIFY_SCRIPT_DEST = path.join(os.homedir(), '.claude', 'notify-plus.js');
 
 let fileWatcher = null;
@@ -21,6 +22,7 @@ function activate(context) {
   console.log('Claude Code Notifier Plus is now active');
   extensionIconPath = path.join(context.extensionPath, 'icon.png');
 
+  try { fs.mkdirSync(CLAUDE_DIR, { recursive: true }); } catch (_) {}
   try { fs.writeFileSync(MARKER_FILE, String(process.pid), 'utf8'); } catch (_) {}
 
   try {
@@ -289,7 +291,7 @@ function handleNotification() {
   if (!raw) return;
 
   try {
-    const { event, text, project, taskTitle, cwd } = parsePayload(raw);
+    const { event, text, project, taskTitle, cwd, termBundleId } = parsePayload(raw);
 
     if (!isAllowedEvent(event, getAllowedList())) {
       console.log(`Skipped notification for event type: ${event}`);
@@ -319,6 +321,7 @@ function handleNotification() {
         project,
         cwd,
         iconPath: extensionIconPath,
+        termBundleId,
       });
     }
 
