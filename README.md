@@ -1,6 +1,6 @@
 # Claude Code Notifier Plus
 
-![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i4/O1CN01gwb5Qw1mo3TM0DH8N_!!6000000005000-2-tps-2042-1206.png)
+![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01fIlsoa1craMw7GIvu_!!6000000003654-0-tps-1300-660.jpg)
 
 Get notified when Claude Code needs your attention — works in **both CLI and VS Code extension mode**.
 
@@ -107,7 +107,7 @@ The selected code is inserted as a `@file#line` reference in Claude Code's chat,
 
 ## How It Works
 
-![How It Works](https://img.alicdn.com/imgextra/i2/O1CN01SWHcHM1GWafIEO1Ie_!!6000000000630-2-tps-1760-1350.png)
+![How It Works](https://img.alicdn.com/imgextra/i3/O1CN01OWIjF31vRus2DKAw9_!!6000000006170-0-tps-1200-1350.jpg)
 
 ## Test
 
