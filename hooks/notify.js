@@ -92,10 +92,13 @@ function getProjectName(cwd) {
 
 function isExtensionActive() {
   try {
-    const pid = parseInt(fs.readFileSync(MARKER_FILE, 'utf8').trim(), 10);
-    if (!pid) return false;
-    process.kill(pid, 0);
-    return true;
+    const content = fs.readFileSync(MARKER_FILE, 'utf8').trim();
+    if (!content) return false;
+    const pids = content.split('\n').filter(Boolean).map(Number);
+    return pids.some(pid => {
+      if (isNaN(pid)) return false;
+      try { process.kill(pid, 0); return true; } catch (_) { return false; }
+    });
   } catch (_) {
     return false;
   }

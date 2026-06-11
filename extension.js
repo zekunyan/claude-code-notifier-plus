@@ -18,12 +18,40 @@ let lastNotifTime = 0;
 let extensionIconPath = '';
 const DEDUP_MS = 2000;
 
+function readActivePids() {
+  try {
+    return fs.readFileSync(MARKER_FILE, 'utf8').trim().split('\n')
+      .filter(Boolean).map(Number).filter(n => !isNaN(n));
+  } catch (_) {
+    return [];
+  }
+}
+
+function addActivePid(pid) {
+  let pids = readActivePids().filter(p => {
+    try { process.kill(p, 0); return true; } catch (_) { return false; }
+  });
+  if (!pids.includes(pid)) pids.push(pid);
+  try { fs.writeFileSync(MARKER_FILE, pids.join('\n'), 'utf8'); } catch (_) {}
+}
+
+function removeActivePid(pid) {
+  let pids = readActivePids()
+    .filter(p => p !== pid)
+    .filter(p => { try { process.kill(p, 0); return true; } catch (_) { return false; } });
+  if (pids.length === 0) {
+    try { fs.unlinkSync(MARKER_FILE); } catch (_) {}
+  } else {
+    try { fs.writeFileSync(MARKER_FILE, pids.join('\n'), 'utf8'); } catch (_) {}
+  }
+}
+
 function activate(context) {
   console.log('Claude Code Notifier Plus is now active');
   extensionIconPath = path.join(context.extensionPath, 'icon.png');
 
   try { fs.mkdirSync(CLAUDE_DIR, { recursive: true }); } catch (_) {}
-  try { fs.writeFileSync(MARKER_FILE, String(process.pid), 'utf8'); } catch (_) {}
+  addActivePid(process.pid);
 
   try {
     installHooks({
@@ -97,6 +125,26 @@ function activate(context) {
     }
   );
   context.subscriptions.push(addSelectionCmd);
+
+  const codeActionProvider = vscode.languages.registerCodeActionsProvider(
+    '*',
+    {
+      provideCodeActions(document, range) {
+        if (range.isEmpty) return;
+        const action = new vscode.CodeAction(
+          vscode.l10n.t('Add Selection to Claude Code'),
+          vscode.CodeActionKind.QuickFix
+        );
+        action.command = {
+          command: 'claude-notifier-plus.addSelectionToClaude',
+          title: vscode.l10n.t('Add Selection to Claude Code'),
+        };
+        return [action];
+      },
+    },
+    { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
+  );
+  context.subscriptions.push(codeActionProvider);
 
   startFileWatcher();
 
@@ -347,7 +395,7 @@ function handleNotification() {
 
 function deactivate() {
   stopFileWatcher();
-  try { fs.unlinkSync(MARKER_FILE); } catch (_) {}
+  removeActivePid(process.pid);
 }
 
 module.exports = { activate, deactivate };

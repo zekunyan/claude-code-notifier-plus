@@ -5,14 +5,13 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VSIX_FILE=$(ls -t "$SCRIPT_DIR"/claude-code-notifier-plus-*.vsix 2>/dev/null | head -1)
 
-if [ -z "$VSIX_FILE" ]; then
-  echo "📦 未找到 .vsix 文件，开始打包..."
-  cd "$SCRIPT_DIR"
-  npx --yes @vscode/vsce package --allow-missing-repository
-  VSIX_FILE=$(ls -t "$SCRIPT_DIR"/claude-code-notifier-plus-*.vsix 2>/dev/null | head -1)
-fi
+rm -f "$SCRIPT_DIR"/claude-code-notifier-plus-*.vsix
+
+echo "📦 打包中..."
+cd "$SCRIPT_DIR"
+npx --yes @vscode/vsce package --allow-missing-repository
+VSIX_FILE=$(ls -t "$SCRIPT_DIR"/claude-code-notifier-plus-*.vsix 2>/dev/null | head -1)
 
 echo ""
 echo "📦 ============================================"
