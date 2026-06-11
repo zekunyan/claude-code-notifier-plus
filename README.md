@@ -10,20 +10,20 @@ Get notified when Claude Code needs your attention — works in **both CLI and V
 
 The official Claude Code VS Code extension handles notifications internally through its webview and **does not trigger** the `Notification` hook that CLI-based notifier extensions rely on. This means existing notifier extensions silently fail when you use Claude Code inside VS Code.
 
-**Claude Code Notifier Plus** solves this by registering hooks for multiple event types that fire in both environments:
+**Claude Code Notifier Plus** solves this by registering event-specific hooks that fire in **both** CLI and VS Code environments:
 
-| Event | CLI Mode | VS Code Mode |
-|---|---|---|
-| Permission Request | `Notification` hook | `PermissionRequest` hook |
-| Question / Elicitation | `Notification` hook | `Elicitation` hook |
-| Task Complete | `Notification` hook | `Stop` hook |
-| Subagent Finished | `Notification` hook | `SubagentStop` hook |
+| Event | Hook |
+|---|---|
+| Permission Request | `PermissionRequest` |
+| Question / Elicitation | `Elicitation` |
+| Task Complete | `Stop` |
+| Subagent Finished | `SubagentStop` |
 
 ## Features
 
 - **Dual-mode support** — works whether you run Claude Code in the terminal or the VS Code extension
 - **Pure CLI support** — notifications work even without VS Code running (direct `terminal-notifier` / `osascript` fallback)
-- **Click-to-focus** — click a notification to jump directly to the corresponding window — VS Code project window or CLI terminal (Terminal.app, iTerm2, Warp, etc.) — auto-detected; notification auto-dismissed from Notification Center after click (macOS, requires `terminal-notifier`)
+- **Click-to-focus** — click a notification to jump directly to the corresponding window — VS Code project window or CLI terminal (Terminal.app, iTerm2, Warp, etc.) — auto-detected via `VSCODE_PID` for reliable source identification; notification auto-dismissed from Notification Center after click (macOS, requires `terminal-notifier`)
 - **OS-level notifications** — native system notifications on macOS, Windows, and Linux (zero dependencies for basic mode)
 - **Task context** — notifications include project name 📂 and task title 💬 so you know which tab needs attention
 - **Sound alerts** — audible notification when Claude needs attention
@@ -135,7 +135,7 @@ MIT
 
 - **双模式支持** — 终端 CLI 和 VS Code 扩展内都能触发通知
 - **纯 CLI 支持** — 无需打开 VS Code 也能收到系统通知
-- **点击跳转** — 点击通知直接跳转到对应项目的 VS Code 窗口，或 CLI 终端窗口（Terminal.app / iTerm2 / Warp 等），自动检测；点击后通知自动从通知中心移除（macOS，需安装 `terminal-notifier`）
+- **点击跳转** — 点击通知直接跳转到对应项目的 VS Code 窗口，或 CLI 终端窗口（Terminal.app / iTerm2 / Warp 等），通过 `VSCODE_PID` 精确识别来源，不会误跳终端；点击后通知自动从通知中心移除（macOS，需安装 `terminal-notifier`）
 - **系统级通知** — macOS / Windows / Linux 原生系统通知
 - **任务上下文** — 通知包含项目名 📂 和任务摘要 💬
 - **提示音** — 可选声音提醒
