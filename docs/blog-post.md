@@ -22,7 +22,7 @@ Claude Code 有 Hook 机制，社区也有人做过通知插件。但有个坑�
 
 ![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01yePotL1HTflBrz0xS_!!6000000000759-2-tps-1280-640.png)
 
-**Claude Code Notifier Plus** 不只依赖 `Notification` hook，而是同时注册了 `PermissionRequest`、`Elicitation`、`Stop`、`SubagentStop` 等 VS Code 专属事件 hook，**确保在 VS Code 扩展模式下每一条通知都不会漏掉**。同时兼容 CLI 模式。
+**Claude Code Notifier Plus** 注册了 `PermissionRequest`、`Elicitation`、`Stop`、`SubagentStop` 事件 hook，CLI 和 VS Code 模式下都能触发，**一个不漏**。
 
 ### 核心功能
 

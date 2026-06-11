@@ -214,13 +214,15 @@ function processData(raw) {
   const project = getProjectName(data.cwd);
   const taskTitle = data.transcript_path ? extractTaskTitle(data.transcript_path) : '';
 
-  const termBundleId = getTerminalBundleId() || '';
+  const isVSCode = !!process.env.VSCODE_PID || process.env.TERM_PROGRAM === 'vscode';
+  const detectedTermBundleId = isVSCode ? '' : (getTerminalBundleId() || '');
   try { fs.mkdirSync(path.dirname(NOTIFY_FILE), { recursive: true }); } catch (_) {}
-  try { fs.writeFileSync(NOTIFY_FILE, JSON.stringify({ event, text, project, taskTitle, cwd: data.cwd || '', termBundleId, ts: Date.now() })); } catch (_) {}
+  try { fs.writeFileSync(NOTIFY_FILE, JSON.stringify({ event, text, project, taskTitle, cwd: data.cwd || '', termBundleId: detectedTermBundleId, ts: Date.now() })); } catch (_) {}
 
   if (!isExtensionActive()) {
     const message = formatNotificationText(project, taskTitle, text);
-    showDirectNotification(message, { project, termBundleId });
+    const directBundleId = isVSCode ? 'com.microsoft.VSCode' : detectedTermBundleId;
+    showDirectNotification(message, { project, termBundleId: directBundleId });
   }
 }
 

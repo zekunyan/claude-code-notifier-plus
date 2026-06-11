@@ -5,37 +5,29 @@
 ```
 Claude Code Process
   │
-  ├─ CLI mode: fires Notification hook ──┐
-  │                                       │
-  ├─ VS Code mode: fires                 │
-  │   PermissionRequest hook ─────────────┤
-  │   Elicitation hook ───────────────────┤
-  │   Stop hook ──────────────────────────┤
-  │   SubagentStop hook ──────────────────┤
+  ├─ Fires event-specific hooks:
+  │   PermissionRequest ──────────────────┐
+  │   Elicitation ────────────────────────┤
+  │   Stop ───────────────────────────────┤
+  │   SubagentStop ───────────────────────┤
   │                                       ▼
   │                              notify-plus.js
   │                                       │
-  │                          ┌────────────┴────────────┐
-  │                          ▼                         ▼
-  │                  VS Code running?            No VS Code?
-  │                  (marker file exists)        (CLI-only mode)
-  │                          │                         │
-  │                          ▼                         ▼
-  │                  Write pipe file             Direct notification
-  │                  + detect terminal           + detect terminal
-  │                  (process tree walk)         (terminal-notifier
-  │                          │                    or osascript)
-  │                          ▼                         │
-  │                  VS Code Extension                 ▼
-  │                  (watches pipe file)         Click → focus terminal
-  │                          │
-  │             ┌────────────┼────────────┐
-  │             ▼            ▼            ▼
-  │       VS Code       OS System      Sound
-  │       Popup        Notification    Alert
-  │                    + Click-to-focus
-  │                    (VS Code window
-  │                     or CLI terminal)
+  │                          ┌── VSCODE_PID set? ──┐
+  │                          ▼                     ▼
+  │                    VS Code session        CLI session
+  │                    (termBundleId='')       (detect terminal)
+  │                          │                     │
+  │                          ▼                     ▼
+  │                  ┌─ Extension active? ─┐  ┌─ Extension active? ─┐
+  │                  ▼                     ▼  ▼                     ▼
+  │            Write pipe             (unlikely) Write pipe     Direct notif
+  │                  │                           │              → focus terminal
+  │                  ▼                           ▼
+  │           VS Code Extension           VS Code Extension
+  │           (watches pipe file)         (watches pipe file)
+  │                  │                           │
+  │        Click → focus VS Code       Click → focus terminal
 ```
 
 ## Add Selection to Claude Code
@@ -74,18 +66,20 @@ This feature piggybacks on Claude Code's built-in `insertAtMention` command, whi
 ## IPC Mechanism
 
 - **Pipe file**: `~/.claude/notify-plus.pipe` — hook writes JSON payload (including `termBundleId`), extension watches
-- **Marker file**: `~/.claude/notify-plus.active` — contains VS Code PID, hook checks to decide direct vs delegated notification
+- **Marker file**: `~/.claude/notify-plus.active` — contains VS Code PIDs (one per line, supports multiple windows), hook checks to decide direct vs delegated notification
 - **Lock file**: `~/.claude/notify-plus.pipe.lock` — prevents race conditions across multiple VS Code windows
 
 > Files use `~/.claude/` (fixed path) instead of `$TMPDIR` to ensure the hook and extension always reference the same location regardless of how `$TMPDIR` is set.
 
 ## Terminal Detection (macOS)
 
-When Claude Code runs in a CLI terminal, the hook detects which terminal app it's running in:
+The hook first checks `$VSCODE_PID` (set by VS Code for all its child processes) to determine if it's running in a VS Code context. If so, `termBundleId` is left empty and the extension defaults to focusing VS Code — this avoids unreliable process-tree detection that could misidentify the source terminal.
+
+For CLI sessions (no `$VSCODE_PID`), the hook detects the terminal app:
 
 1. Check `$TERM_PROGRAM` / `$LC_TERMINAL` environment variables
 2. Fallback: walk the process tree via `ps` to find the terminal ancestor
 
-Supported terminals: Terminal.app, iTerm2, Warp, Alacritty, Kitty, Hyper, VS Code integrated terminal.
+Supported terminals: Terminal.app, iTerm2, Warp, Alacritty, Kitty, Hyper.
 
 The detected terminal bundle ID (`termBundleId`) is included in the payload so the extension can focus the correct app when the user clicks the notification.
