@@ -20,13 +20,13 @@ Claude Code 有 Hook 机制，社区也有人做过通知插件。但有个坑�
 
 ## ✨ Claude Code Notifier Plus — 专为 VS Code 用户打造
 
-![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01fIlsoa1craMw7GIvu_!!6000000003654-0-tps-1300-660.jpg)
+![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01yePotL1HTflBrz0xS_!!6000000000759-2-tps-1280-640.png)
 
 **Claude Code Notifier Plus** 不只依赖 `Notification` hook，而是同时注册了 `PermissionRequest`、`Elicitation`、`Stop`、`SubagentStop` 等 VS Code 专属事件 hook，**确保在 VS Code 扩展模式下每一条通知都不会漏掉**。同时兼容 CLI 模式。
 
 ### 核心功能
 
-- 🖱️ **点击通知跳转窗口** — 开了多个 VS Code 窗口？在终端跑 Claude？点击通知直接跳到对应的 VS Code 项目窗口或 CLI 终端（Terminal / iTerm2 / Warp），自动识别
+- 🖱️ **点击通知跳转窗口** — 开了多个 VS Code 窗口？在终端跑 Claude？点击通知直接跳到对应的 VS Code 项目窗口或 CLI 终端（Terminal / iTerm2 / Warp），自动识别，点击后通知自动从通知中心移除
 - 📂 **通知带上下文** — 项目名 + 任务摘要，多项目并行一眼分清
 - 🔐 **全事件覆盖** — 权限请求、提问确认、任务完成、子代理完成，一个不漏
 - 🌐 **中英文自动切换** — 跟随系统语言
@@ -34,7 +34,7 @@ Claude Code 有 Hook 机制，社区也有人做过通知插件。但有个坑�
 
 ## 原理
 
-![How It Works](https://img.alicdn.com/imgextra/i3/O1CN01OWIjF31vRus2DKAw9_!!6000000006170-0-tps-1200-1350.jpg)
+![How It Works](https://img.alicdn.com/imgextra/i3/O1CN01D4Iu821kEfe0MveyX_!!6000000004652-2-tps-1200-1350.png)
 
 插件安装时自动注册 hook 脚本到 `~/.claude/settings.json`。Claude Code 触发事件时：
 
@@ -59,9 +59,14 @@ brew install terminal-notifier
 
 ## 🍰 甜点功能：一键发送选中代码给 Claude
 
-选中代码 → 右键 **"将选中内容添加到 Claude Code"**，或按 `Cmd+Shift+I`，选中的代码引用就直接出现在 Claude Code 的聊天输入框里了。
+选中代码后，有 **4 种方式** 把代码引用直接插入 Claude Code 的聊天输入框：
 
-不用手动复制粘贴，不用手动输入文件路径。Claude 会自动拿到完整的文件上下文。
+- 💬 **编辑器工具栏按钮** — 选中文字后，编辑器右上角出现聊天图标，一键点击（最快！）
+- 💡 **灯泡代码操作** — 选中文字后，点击行首灯泡图标
+- 🖱️ **右键菜单** — 选中代码 → 右键 → "将选中内容添加到 Claude Code"
+- ⌨️ **快捷键** `Cmd+Shift+I`
+
+还可以在资源管理器中右键任意文件添加。不用手动复制粘贴，不用手动输入文件路径，Claude 会自动拿到完整的文件上下文。
 
 ---
 

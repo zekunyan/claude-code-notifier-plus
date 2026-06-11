@@ -1,6 +1,6 @@
 # Claude Code Notifier Plus
 
-![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01fIlsoa1craMw7GIvu_!!6000000003654-0-tps-1300-660.jpg)
+![Claude Code Notifier Plus](https://img.alicdn.com/imgextra/i3/O1CN01yePotL1HTflBrz0xS_!!6000000000759-2-tps-1280-640.png)
 
 Get notified when Claude Code needs your attention — works in **both CLI and VS Code extension mode**.
 
@@ -23,7 +23,7 @@ The official Claude Code VS Code extension handles notifications internally thro
 
 - **Dual-mode support** — works whether you run Claude Code in the terminal or the VS Code extension
 - **Pure CLI support** — notifications work even without VS Code running (direct `terminal-notifier` / `osascript` fallback)
-- **Click-to-focus** — click a notification to jump directly to the corresponding window — VS Code project window or CLI terminal (Terminal.app, iTerm2, Warp, etc.) — auto-detected (macOS, requires `terminal-notifier`)
+- **Click-to-focus** — click a notification to jump directly to the corresponding window — VS Code project window or CLI terminal (Terminal.app, iTerm2, Warp, etc.) — auto-detected; notification auto-dismissed from Notification Center after click (macOS, requires `terminal-notifier`)
 - **OS-level notifications** — native system notifications on macOS, Windows, and Linux (zero dependencies for basic mode)
 - **Task context** — notifications include project name 📂 and task title 💬 so you know which tab needs attention
 - **Sound alerts** — audible notification when Claude needs attention
@@ -98,16 +98,22 @@ All settings are under `claudeCodeNotifierPlus.*` in VS Code settings:
 
 ## Bonus: Add Selection to Claude Code
 
-Quickly send selected code to Claude Code's chat input — no copy-paste needed.
+Quickly send selected code to Claude Code's chat input — no copy-paste needed. **4 ways to trigger:**
 
-- **Right-click** any selected code → **"Add Selection to Claude Code"**
-- **Keyboard shortcut**: `Cmd+Shift+I` (macOS) / `Ctrl+Shift+I` (Windows/Linux)
+| Method | Clicks | How |
+|---|---|---|
+| **Editor title button** 💬 | 1 | Select text → click the chat icon in the editor toolbar |
+| **Lightbulb code action** 💡 | 2 | Select text → click the lightbulb → "Add Selection to Claude Code" |
+| **Right-click menu** | 2 | Select text → right-click → "Add Selection to Claude Code" |
+| **Keyboard shortcut** ⌨️ | 0 | Select text → `Cmd+Shift+I` (macOS) / `Ctrl+Shift+I` (Windows/Linux) |
+
+You can also right-click any file in the **Explorer** panel to add it to Claude Code.
 
 The selected code is inserted as a `@file#line` reference in Claude Code's chat, so Claude knows exactly where the code is and can read the full context.
 
 ## How It Works
 
-![How It Works](https://img.alicdn.com/imgextra/i3/O1CN01OWIjF31vRus2DKAw9_!!6000000006170-0-tps-1200-1350.jpg)
+![How It Works](https://img.alicdn.com/imgextra/i3/O1CN01D4Iu821kEfe0MveyX_!!6000000004652-2-tps-1200-1350.png)
 
 ## Test
 
@@ -129,7 +135,7 @@ MIT
 
 - **双模式支持** — 终端 CLI 和 VS Code 扩展内都能触发通知
 - **纯 CLI 支持** — 无需打开 VS Code 也能收到系统通知
-- **点击跳转** — 点击通知直接跳转到对应项目的 VS Code 窗口，或 CLI 终端窗口（Terminal.app / iTerm2 / Warp 等），自动检测（macOS，需安装 `terminal-notifier`）
+- **点击跳转** — 点击通知直接跳转到对应项目的 VS Code 窗口，或 CLI 终端窗口（Terminal.app / iTerm2 / Warp 等），自动检测；点击后通知自动从通知中心移除（macOS，需安装 `terminal-notifier`）
 - **系统级通知** — macOS / Windows / Linux 原生系统通知
 - **任务上下文** — 通知包含项目名 📂 和任务摘要 💬
 - **提示音** — 可选声音提醒
@@ -139,7 +145,14 @@ MIT
 
 ### 甜点功能：快速发送选中代码到 Claude Code
 
-选中代码后，右键菜单选择 **"将选中内容添加到 Claude Code"**，或使用快捷键 `Cmd+Shift+I`，即可将代码引用直接插入 Claude Code 的聊天输入框。
+选中代码后，有 **4 种方式** 将代码引用插入 Claude Code 聊天输入框：
+
+- 💬 **编辑器工具栏按钮** — 选中文字后，编辑器右上角出现聊天图标，一键点击
+- 💡 **灯泡代码操作** — 选中文字后，点击行首灯泡图标选择操作
+- 🖱️ **右键菜单** — 选中代码 → 右键 → "将选中内容添加到 Claude Code"
+- ⌨️ **快捷键** `Cmd+Shift+I`
+
+还可以在**资源管理器**中右键任意文件添加到 Claude Code。
 
 ### 安装
 
